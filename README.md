@@ -1,5 +1,5 @@
-# 3d-view-controls
-An easy to use 3D camera with input binding.
+# multitouch-camera
+An easy to use 3D camera with input binding.  Forked from 3d-view-controls to add basic multitouch support (pinch/zoom). 
 
 Default controls:
 
@@ -9,9 +9,6 @@ Left mouse | Rotate
 Shift + left mouse *or* scroll horizontally | Roll
 Right mouse | Pan
 Middle mouse *or* scroll vertically | Zoom
-
-# Fork adjustments
-- added basic multi-touch pinch/zoom handling
 
 
 # Example
