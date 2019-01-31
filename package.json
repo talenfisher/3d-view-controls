@@ -1,6 +1,6 @@
 {
   "name": "@talenfisher/multitouch-camera",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "description": "A 3D camera with hooks for input handling & basic multitouch support",
   "main": "camera.js",
   "directories": {
@@ -42,8 +42,12 @@
     "gl"
   ],
   "contributors": [
-      { "name": "Mikola Lysenko" },
-      { "name": "Talen Fisher" }
+    {
+      "name": "Mikola Lysenko"
+    },
+    {
+      "name": "Talen Fisher"
+    }
   ],
   "license": "MIT",
   "bugs": {
