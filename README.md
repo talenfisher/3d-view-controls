@@ -10,6 +10,10 @@ Shift + left mouse *or* scroll horizontally | Roll
 Right mouse | Pan
 Middle mouse *or* scroll vertically | Zoom
 
+# Fork adjustments
+- added basic multi-touch pinch/zoom handling
+
+
 # Example
 
 Here is a complete working example of how to use this module in an application:
