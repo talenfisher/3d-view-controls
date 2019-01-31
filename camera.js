@@ -164,30 +164,77 @@ function createCamera(element, options) {
     return false
   })
 
-  var lastX = 0, lastY = 0, lastMods = {shift: false, control: false, alt: false, meta: false}
+  var lastX = 0, lastY = 0, touchCache = [], lastMods = {shift: false, control: false, alt: false, meta: false}
   mouseChange(element, handleInteraction)
 
   //enable simple touch interactions
   element.addEventListener('touchstart', function (ev) {
-    var xy = mouseOffset(ev.changedTouches[0], element)
-    handleInteraction(0, xy[0], xy[1], lastMods)
-    handleInteraction(1, xy[0], xy[1], lastMods)
-
     ev.preventDefault()
+
+    if(ev.targetTouches.length < 2) {
+        var xy = mouseOffset(ev.changedTouches[0], element)
+        handleInteraction(0, xy[0], xy[1], lastMods)
+        handleInteraction(1, xy[0], xy[1], lastMods)
+
+    } else if(ev.targetTouches.length === 2) {
+        for(let event of ev.targetTouches) {
+            touchCache.push(event);
+        }
+    }
   }, hasPassive ? {passive: false} : false)
 
   element.addEventListener('touchmove', function (ev) {
-    var xy = mouseOffset(ev.changedTouches[0], element)
-    handleInteraction(1, xy[0], xy[1], lastMods)
+    if(ev.targetTouches.length < 2) {
+        var xy = mouseOffset(ev.changedTouches[0], element)
+        handleInteraction(1, xy[0], xy[1], lastMods)
+    } else if(ev.targetTouches.length === 2) {
+        let t = now()
+        let p1, p2;
+        let c1 = ev.targetTouches[0], c2 = ev.targetTouches[1];
 
-    ev.preventDefault()
+        for(let i = 0; i < touchCache.length; i++) {
+            let event = touchCache[i];
+            
+            if(event.identifier === c1.identifier) {
+                p1 = event;
+                touchCache[i] = c1;
+            }
+
+            if(event.identifier === c2.identifier) {
+                p2 = event;
+                touchCache[i] = c2;
+            }
+        }
+
+        let dxp = Math.abs(p1.clientX - p2.clientX);
+        let dyp = Math.abs(p1.clientY - p2.clientY);
+        let dxc = Math.abs(c1.clientX - c2.clientY);
+        let dyc = Math.abs(c1.clientY - c2.clientY);
+
+        let dx = dxp / dxc;
+        let dy = dyp / dyc;
+        let d = Math.max(dx, dy);
+
+        if(d === dx && dxp > dxc) d = -d;
+        if(d === dy && dyp > dyc) d = -d;
+
+        let speed = camera.zoomSpeed;
+        view.pan(t, 0, 0, (-speed * d) / (window.innerHeight / 15.0));
+    }
   }, hasPassive ? {passive: false} : false)
 
   element.addEventListener('touchend', function (ev) {
+    ev.preventDefault();
     var xy = mouseOffset(ev.changedTouches[0], element)
     handleInteraction(0, lastX, lastY, lastMods)
 
-    ev.preventDefault()
+    for(let event of ev.targetTouches) {
+        for(let i = 0; i < touchCache.length; i++) {
+            if(touchCache[i] == event.identifier) {
+                touchCache.splice(i, 1);
+            }
+        }
+    }
   }, hasPassive ? {passive: false} : false)
 
   function handleInteraction (buttons, x, y, mods) {
