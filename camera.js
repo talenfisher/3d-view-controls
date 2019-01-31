@@ -219,7 +219,7 @@ function createCamera(element, options) {
         if(d === dy && dyp > dyc) d = -d;
 
         let speed = camera.zoomSpeed;
-        view.pan(t, 0, 0, (-speed * d) / (window.innerHeight / 15.0));
+        view.pan(t, 0, 0, (-speed * d) / (element.innerHeight / 20.0));
     }
   }, hasPassive ? {passive: false} : false)
 
