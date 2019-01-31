@@ -54,12 +54,10 @@ function render() {
 render()
 ```
 
-[You can try it out in your browser right now](https://mikolalysenko.github.io/3d-view-controls).
-
 # Install
 
 ```
-npm i 3d-view-controls
+npm i @talenfisher/multitouch-camera
 ```
 
 # API
@@ -177,14 +175,5 @@ Camera translation speed scaling factor
 #### `camera.element`
 The DOM element the camera is attached to
 
-# Future
-
-Expand to support more input types:
-
-* Touch
-* Keyboard
-* GamePad
-* VR?
-
 # License
-(c) 2015 Mikola Lysenko. MIT License
+(c) 2015 Mikola Lysenko, Talen Fisher. MIT License
